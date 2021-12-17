@@ -4,7 +4,7 @@
 }
 
 body {
-	background-color: #9b59b6;
+	background-color: #00ace6;
 	font-family: 'Open Sans', sans-serif;
 	display: flex;
 	align-items: center;
@@ -71,8 +71,8 @@ body {
 }
 
 .form .login_button {
-	background-color: #8e44ad;
-	border: 2px solid #8e44ad;
+	background-color: #00ace6;
+	border: 2px solid #00ace6;
 	border-radius: 4px;
 	color: #fff;
 	display: block;
