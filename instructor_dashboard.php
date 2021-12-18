@@ -182,7 +182,6 @@ $this_name = $name_row['instructor_name'];
                 <h4 class="modal-title float-center">Sumissions</h4>
               </div>
                 <div class="modal-body">
-                  <!--  -->
                   <table class="table table-hover">
                     <thead>
                       <tr>
@@ -194,10 +193,10 @@ $this_name = $name_row['instructor_name'];
                     </thead>
                     <tbody>
                       <!-- <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>Mark</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                       </tr> -->
                       <?php
 
@@ -240,8 +239,8 @@ $this_name = $name_row['instructor_name'];
     </div>
 
 
+    <!-- add assignment button work -->
     <?php
-
     if(isset($_POST['addAssignment']))
     {
       $assignment_name = $_POST['addAssignmentName'];
@@ -255,7 +254,6 @@ $this_name = $name_row['instructor_name'];
       $addAssignmentFile_tmp_loc = $_FILES['addAssignmentFile']['tmp_name'];
       $addAssignmentFile_store = "files/questions/".$addAssignmentFile;
       move_uploaded_file($addAssignmentFile_tmp_loc, $addAssignmentFile_store);
-      //
 
       mysqli_query($con,"INSERT INTO assignment_list (`assignment_name`,`description`,`userid`,`question`) VALUES ('$assignment_name','$description','$userid','$addAssignmentFile')");
     }

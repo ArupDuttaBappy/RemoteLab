@@ -2,15 +2,9 @@
 session_start();
 include 'config.php';
 $this_userid = $_SESSION['this_userid'];
-
 $name_row = mysqli_fetch_array(mysqli_query($con,"SELECT `student_name` FROM `student_login` WHERE userid='$this_userid'"));
 
 $this_name = $name_row['student_name'];
-
-// $assignment_rows_count = mysqli_num_rows(mysqli_query($con,"SELECT `assignment_name`, `description`, `due_date` FROM `assignment_list` WHERE userid='$this_userid'"));
-//
-// $assignment_rows = mysqli_fetch_array(mysqli_query($con,"SELECT `assignment_name`, `description`, `due_date` FROM `assignment_list` WHERE userid='$this_userid'"));
-
 $assignment_query = "SELECT `assignment_name`, `description`, `due_date` FROM `assignment_list` WHERE userid='$this_userid'";
 $assignment_data = mysqli_query($con,$assignment_query);
 $total_assignment = mysqli_num_rows($assignment_data);
@@ -18,6 +12,7 @@ $total_assignment = mysqli_num_rows($assignment_data);
 $download_assignment_query = mysqli_fetch_array(mysqli_query($con,"SELECT `question` FROM `assignment_list` WHERE userid='$this_userid'"));
 $download_assignment_query_result = $download_assignment_query['question'];
 
+// fetching data from database table
 ?>
 
 <!DOCTYPE html>
@@ -49,6 +44,8 @@ $download_assignment_query_result = $download_assignment_query['question'];
           </div>
         </div>
 
+
+        <!-- creating assignment boxes using database data -->
         <?php
         while($assignment_result = mysqli_fetch_assoc($assignment_data))
         {
@@ -76,6 +73,8 @@ $download_assignment_query_result = $download_assignment_query['question'];
       </div>
     </div>
 
+
+    <!-- 'submit assignment' button work -->
     <?php
     if(isset($_POST['submit'])){
       $answerFile = $_FILES['answerFile']['name'];
