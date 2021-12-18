@@ -35,6 +35,7 @@ $this_name = $name_row['instructor_name'];
           <div class="card-body">
             <h5 class="card-title" style="font-weight:bold; font-size:20px"><?php echo $this_name ?></h5>
             <p class="card-text">Department of Computer Science & Engineering,<br> University of Chittagong.</p>
+            <input class='btn btn-secondary' type=button onclick="parent.location='index.php'" value='Log Out'>
           </div>
         </div>
 
@@ -44,7 +45,7 @@ $this_name = $name_row['instructor_name'];
             <div class="card m-3" style="width:100%; height:30vh">
               <div class="card-body">
                 <h4 class="card-title pb-3 mb-4 border-bottom border-info" style="font-weight:bold">Assignments</h4>
-                <button type="button" class="btn btn-primary btn-lg btn-block">Previous Assignments</button>
+                <button type="button" data-toggle="modal" data-target="#viewAssignmentModal" class="btn btn-primary btn-lg btn-block">Previous Assignments</button>
                 <button type="button" data-toggle="modal" data-target="#addAssignmentModal" class="btn btn-warning btn-lg btn-block">Add Assignment</button>
               </div>
             </div>
@@ -53,7 +54,7 @@ $this_name = $name_row['instructor_name'];
             <div class="card m-3" style="width:96%; height:30vh">
               <div class="card-body">
                 <h4 class="card-title pb-3 mb-4 border-bottom border-info" style="font-weight:bold">Submissions</h4>
-                <button type="button" class="btn btn-success btn-lg btn-block">View Submissions</button>
+                <button type="button" data-toggle="modal" data-target="#viewSubmissionModal" class="btn btn-success btn-lg btn-block">View Submissions</button>
                 <button type="button" class="btn btn-secondary disabled btn-lg btn-block">Evaluate Submissions</button>
               </div>
             </div>
@@ -86,7 +87,7 @@ $this_name = $name_row['instructor_name'];
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title float-center" id="exampleModalLabel">New Assignment</h4>
+                <h4 class="modal-title float-center">New Assignment</h4>
               </div>
               <form method="POST" enctype='multipart/form-data'>
                 <div class="modal-body">
@@ -112,6 +113,123 @@ $this_name = $name_row['instructor_name'];
                   <button type="submit" name="addAssignment" class="btn btn-primary">ADD</button>
                 </div>
               </form>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- View Previous Assignment modal -->
+        <div class="modal fade" id="viewAssignmentModal" tabindex="-1" role="dialog" aria-labelledby="viewAssignmentModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title float-center">Assigned Tasks</h4>
+              </div>
+              <div class="modal-body">
+                <!--  -->
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">Assignment Name</th>
+                      <th scope="col">Details</th>
+                      <th scope="col">Assigned To</th>
+                      <th scope="col">Question File</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <?php
+
+                    $viewAssignmentQuery_run = mysqli_query($con,"SELECT * FROM assignment_list");
+
+                    if($viewAssignmentQuery_run)
+                    {
+                      foreach($viewAssignmentQuery_run as $viewAssignmentQuery_row)
+                      {
+                        if($viewAssignmentQuery_row['question']){
+                          ?>
+                          <tr>
+                            <td> <?php echo $viewAssignmentQuery_row['assignment_name']; ?> </td>
+                            <td> <?php echo $viewAssignmentQuery_row['description']; ?> </td>
+                            <td> <?php echo $viewAssignmentQuery_row['userid']; ?> </td>
+                            <td> <?php echo $viewAssignmentQuery_row['question']; ?> </td>
+                          </tr>
+                          <?php
+                        }
+                      }
+                    }
+                    else
+                    {
+                      echo "No Record(s) Found";
+                    }
+                    ?>
+                  </tbody>
+                </table>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- View Submissions modal -->
+        <div class="modal fade" id="viewSubmissionModal" tabindex="-1" role="dialog" aria-labelledby="viewSubm,issionModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title float-center">Sumissions</h4>
+              </div>
+                <div class="modal-body">
+                  <!--  -->
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col">Assignment Name</th>
+                        <th scope="col">Details</th>
+                        <th scope="col">Assigned By</th>
+                        <th scope="col">Answer File</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- <tr>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>Mark</td>
+                      </tr> -->
+                      <?php
+
+                      $viewSubmissionQuery_run = mysqli_query($con,"SELECT * FROM assignment_list");
+
+                      if($viewSubmissionQuery_run)
+                      {
+                        foreach($viewSubmissionQuery_run as $viewSubmissionQuery_row)
+                        {
+                          if($viewSubmissionQuery_row['answer']){
+                          ?>
+                            <tr>
+                              <td> <?php echo $viewSubmissionQuery_row['assignment_name']; ?> </td>
+                              <td> <?php echo $viewSubmissionQuery_row['description']; ?> </td>
+                              <td> <?php echo $viewSubmissionQuery_row['userid']; ?> </td>
+                              <td> <?php echo $viewSubmissionQuery_row['answer']; ?> </td>
+                            </tr>
+                          <?php
+                        }
+                        }
+                      }
+                      else
+                      {
+                        echo "No Assignments(s) Found";
+                      }
+                      ?>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
           </div>
         </div>
