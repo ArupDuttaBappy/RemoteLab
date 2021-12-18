@@ -36,13 +36,13 @@ $download_assignment_query_result = $download_assignment_query['question'];
       <div class="container-fluid">
         <!-- profile card -->
         <div class="card text-center">
-          <div class="card-header h3 bg-info text-white">
+          <div class="card-header h3 bg-info text-white mt-0">
             Lab Profile [ <?php echo $this_userid ?> ]
           </div>
           <div class="card-body">
             <h4 class="card-title font-weight-bold" style="font-weight:bold"> Name: <?php echo $this_name ?></h4>
             <p class="card-text" style="font-size:18px">Department of Computer Science & Engineering,<br> University of Chittagong.</p>
-            <a href="#" class="btn btn-secondary">Next Assignment</a>
+            <input class='btn btn-secondary' type=button onclick="parent.location='index.php'" value='Log Out'>
           </div>
           <div class="card-footer" style="font-weight:bold">
             Total Assignments = <?php echo $total_assignment ?>
@@ -65,7 +65,7 @@ $download_assignment_query_result = $download_assignment_query['question'];
           <input class='btn btn-secondary py-1' type='submit' name='submit' value='Submit'>
           </div>
           <div class='col-3'>
-          <input type='file' name='pdf'>
+          <input type='file' name='answerFile'>
           </div>
           </div>
           </form>
@@ -78,17 +78,16 @@ $download_assignment_query_result = $download_assignment_query['question'];
 
     <?php
     if(isset($_POST['submit'])){
-      $pdf = $_FILES['pdf']['name'];
-      $pdf_type = $_FILES['pdf']['type'];
-      $pdf_size = $_FILES['pdf']['size'];
-      $pdf_tmp_loc = $_FILES['pdf']['tmp_name'];
-      $pdf_store = "pdf/".$pdf;
-      move_uploaded_file($pdf_tmp_loc, $pdf_store);
+      $answerFile = $_FILES['answerFile']['name'];
+      $answerFile_type = $_FILES['answerFile']['type'];
+      $answerFile_size = $_FILES['answerFile']['size'];
+      $answerFile_tmp_loc = $_FILES['answerFile']['tmp_name'];
+      $answerFile_store = "files/answers/".$answerFile;
+      move_uploaded_file($answerFile_tmp_loc, $answerFile_store);
 
-      $submit_assignment_query = "UPDATE `assignment_list` SET `answer`='$pdf' WHERE userid='$this_userid'";
+      $submit_assignment_query = "UPDATE `assignment_list` SET `answer`='$answerFile' WHERE userid='$this_userid'";
       $submit_assignment_query = mysqli_query($con,$submit_assignment_query);
     }
-
      ?>
 
   </body>
